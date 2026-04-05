@@ -5,195 +5,149 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reset Password – SYE</title>
   <style>
-    :root {
-      --bg: #080d1a; --surface: #0f172a; --border: #1e2a40;
-      --accent: #f97316; --text: #e2e8f0; --secondary: #94a3b8;
-      --green: #22c55e; --red: #ef4444; --input-bg: #131929;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-      min-height: 100vh; display: flex; align-items: center;
-      justify-content: center; padding: 24px;
-    }
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 48px 40px;
-      max-width: 440px; width: 100%;
-    }
-    .icon { font-size: 48px; text-align: center; margin-bottom: 20px; }
-    h1 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
-    .sub { color: var(--secondary); font-size: 14px; text-align: center; margin-bottom: 28px; line-height: 1.6; }
-    label { font-size: 12px; font-weight: 600; color: var(--secondary); display: block; margin-bottom: 6px; margin-top: 20px; }
-    .input-wrap { position: relative; }
-    input[type="password"], input[type="text"] {
-      width: 100%; padding: 13px 44px 13px 14px;
-      background: var(--input-bg); border: 1px solid var(--border);
-      border-radius: 10px; color: var(--text); font-size: 15px; outline: none;
-      transition: border-color 0.2s;
-    }
-    input:focus { border-color: var(--accent); }
-    .toggle-pw {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; color: var(--secondary);
-      cursor: pointer; font-size: 16px; padding: 4px; width: auto; margin: 0;
-    }
-    .req { font-size: 12px; color: var(--secondary); margin-top: 10px; line-height: 1.8; }
-    .req span { display: block; }
-    .req .met { color: var(--green); }
-    button {
-      width: 100%; background: var(--accent); color: white;
-      border: none; border-radius: 12px; padding: 14px;
-      font-size: 15px; font-weight: 600; cursor: pointer;
-      margin-top: 24px; transition: opacity 0.2s;
-    }
-    button:disabled { opacity: 0.4; cursor: default; }
-    .msg { font-size: 14px; text-align: center; margin-top: 16px; padding: 14px; border-radius: 10px; line-height: 1.5; }
-    .msg-success { background: rgba(34,197,94,0.1); color: var(--green); }
-    .msg-error   { background: rgba(239,68,68,0.1);  color: var(--red); }
-    .sye { color: var(--accent); font-size: 13px; text-align: center; margin-top: 28px; }
+    :root{--bg:#080d1a;--surface:#0f172a;--border:#1e2a40;--accent:#f97316;--text:#e2e8f0;--secondary:#94a3b8;--green:#22c55e;--red:#ef4444;--input-bg:#131929;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:48px 40px;max-width:440px;width:100%;}
+    .icon{font-size:48px;text-align:center;margin-bottom:20px;}
+    h1{font-size:24px;font-weight:700;text-align:center;margin-bottom:8px;}
+    .sub{color:var(--secondary);font-size:14px;text-align:center;margin-bottom:28px;line-height:1.6;}
+    label{font-size:12px;font-weight:600;color:var(--secondary);display:block;margin-bottom:6px;margin-top:20px;}
+    .input-wrap{position:relative;}
+    input{width:100%;padding:13px 44px 13px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;outline:none;transition:border-color 0.2s;}
+    input:focus{border-color:var(--accent);}
+    .toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--secondary);cursor:pointer;font-size:16px;width:auto;margin:0;padding:4px;}
+    .req{font-size:12px;color:var(--secondary);margin-top:10px;line-height:1.8;}
+    .req span{display:block;}
+    .req .met{color:var(--green);}
+    .btn{width:100%;background:var(--accent);color:white;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;margin-top:24px;transition:opacity 0.2s;}
+    .btn:disabled{opacity:0.4;cursor:default;}
+    .msg{font-size:14px;text-align:center;margin-top:16px;padding:14px;border-radius:10px;line-height:1.5;}
+    .msg-success{background:rgba(34,197,94,0.1);color:var(--green);}
+    .msg-error{background:rgba(239,68,68,0.1);color:var(--red);}
+    .sye{color:var(--accent);font-size:13px;text-align:center;margin-top:28px;}
   </style>
 </head>
 <body>
   <div class="card">
     <div id="loading-view">
       <div class="icon">⏳</div>
-      <h1>Loading…</h1>
-      <p class="sub">Please wait while we verify your reset link.</p>
+      <h1>Verifying link…</h1>
+      <p class="sub">Please wait.</p>
     </div>
-
     <div id="form-view" style="display:none">
       <div class="icon">🔑</div>
       <h1>Reset Password</h1>
-      <p class="sub">Enter your new password below. Once updated, return to the SYE app and sign in.</p>
+      <p class="sub">Enter your new password. Then return to SYE and sign in.</p>
 
       <label>New Password</label>
       <div class="input-wrap">
-        <input type="password" id="password" autocomplete="new-password"
-               oninput="checkRequirements()">
-        <button class="toggle-pw" type="button" onclick="togglePw('password', this)">👁</button>
+        <input type="password" id="password" autocomplete="new-password" oninput="check()">
+        <button class="toggle" onclick="toggle('password',this)">👁</button>
       </div>
-
       <div class="req">
-        <span id="req-length">○ At least 8 characters</span>
-        <span id="req-upper">○ At least one uppercase letter</span>
-        <span id="req-number">○ At least one number</span>
+        <span id="r1">○ At least 8 characters</span>
+        <span id="r2">○ At least one uppercase letter</span>
+        <span id="r3">○ At least one number</span>
       </div>
 
       <label>Confirm New Password</label>
       <div class="input-wrap">
         <input type="password" id="confirm" autocomplete="new-password">
-        <button class="toggle-pw" type="button" onclick="togglePw('confirm', this)">👁</button>
+        <button class="toggle" onclick="toggle('confirm',this)">👁</button>
       </div>
 
-      <button id="btn" onclick="resetPassword()" disabled>Update Password</button>
+      <button class="btn" id="btn" onclick="doReset()" disabled>Update Password</button>
       <div id="msg" style="display:none"></div>
     </div>
-
     <div id="error-view" style="display:none">
       <div class="icon">❌</div>
       <h1>Link Expired</h1>
-      <p class="sub">This reset link has expired or already been used.<br><br>Open SYE → Settings → Forgot Password to request a new link.</p>
+      <p class="sub">This reset link has expired or already been used.<br><br>Open SYE → Settings → Forgot Password to get a new link.</p>
     </div>
-
     <p class="sye">SYE – Save Your Eyes</p>
   </div>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-    // ✅ CORRECT Supabase project URL and anon key
-    const SUPABASE_URL = 'https://filhtmotbrscqnjnvdwz.supabase.co'
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpbGh0bW90YnJzY3Fuam52ZHd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyOTQ4NjEsImV4cCI6MjA5MDg3MDg2MX0.dX4hhcRmII4wuH5to5fpfZ9aaHFC82rWG4cRoQrnrnk'
+    const supabase = createClient(
+      'https://filhtmotbrscqnjnvdwz.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpbGh0bW90YnJzY3Fuam52ZHd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyOTQ4NjEsImV4cCI6MjA5MDg3MDg2MX0.dX4hhcRmII4wuH5to5fpfZ9aaHFC82rWG4cRoQrnrnk'
+    )
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    const show = id => ['loading-view','form-view','error-view'].forEach(x => {
+      document.getElementById(x).style.display = x===id?'block':'none'
+    })
 
-    const show = id => {
-      ['loading-view', 'form-view', 'error-view']
-        .forEach(x => document.getElementById(x).style.display = x === id ? 'block' : 'none')
-    }
-
-    // Supabase puts tokens in the URL hash after redirect
-    // Handle BOTH hash-based tokens AND PKCE flow
     async function init() {
-      const hash   = window.location.hash
-      const params = new URLSearchParams(hash.replace('#', ''))
-      const access_token  = params.get('access_token')
-      const refresh_token = params.get('refresh_token')
-      const type          = params.get('type')
+      // Supabase appends tokens to hash after redirect
+      const hash = window.location.hash
+      const p = new URLSearchParams(hash.replace('#',''))
+      const at = p.get('access_token')
+      const rt = p.get('refresh_token')
 
-      if (access_token && refresh_token) {
-        const { error } = await supabase.auth.setSession({ access_token, refresh_token })
-        if (error) { show('error-view'); return }
+      if (at && rt) {
+        const { error } = await supabase.auth.setSession({ access_token: at, refresh_token: rt })
+        if (error) { console.error('Session error:', error); show('error-view'); return }
         show('form-view')
         return
       }
-
-      // Also check if Supabase already handled the session (PKCE flow)
+      // Check existing session (PKCE)
       const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        show('form-view')
-        return
-      }
-
-      // No session — link invalid or expired
+      if (session) { show('form-view'); return }
       show('error-view')
     }
 
     await init()
 
-    window.checkRequirements = function () {
-      const pw  = document.getElementById('password').value
-      const len = pw.length >= 8
-      const up  = /[A-Z]/.test(pw)
-      const num = /[0-9]/.test(pw)
-
-      const setReq = (id, met) => {
+    window.check = function() {
+      const pw = document.getElementById('password').value
+      const reqs = [
+        [pw.length >= 8, 'r1'],
+        [/[A-Z]/.test(pw), 'r2'],
+        [/[0-9]/.test(pw), 'r3']
+      ]
+      let allMet = true
+      reqs.forEach(([met, id]) => {
         const el = document.getElementById(id)
         const text = el.textContent.slice(2)
         el.textContent = (met ? '✓ ' : '○ ') + text
         el.className = met ? 'met' : ''
-      }
-      setReq('req-length', len)
-      setReq('req-upper', up)
-      setReq('req-number', num)
-      document.getElementById('btn').disabled = !(len && up && num)
+        if (!met) allMet = false
+      })
+      document.getElementById('btn').disabled = !allMet
     }
 
-    window.resetPassword = async function () {
-      const pw      = document.getElementById('password').value
-      const confirm = document.getElementById('confirm').value
-      const btn     = document.getElementById('btn')
-
-      if (pw !== confirm) { showMsg('Passwords do not match.', 'error'); return }
-
-      btn.disabled    = true
+    window.doReset = async function() {
+      const pw = document.getElementById('password').value
+      const co = document.getElementById('confirm').value
+      const btn = document.getElementById('btn')
+      if (pw !== co) { showMsg('Passwords do not match.','error'); return }
+      btn.disabled = true
       btn.textContent = 'Updating…'
-
       const { error } = await supabase.auth.updateUser({ password: pw })
-
       if (error) {
-        showMsg('Failed to update password: ' + error.message, 'error')
-        btn.disabled    = false
+        showMsg('Failed: ' + error.message, 'error')
+        btn.disabled = false
         btn.textContent = 'Update Password'
       } else {
-        showMsg('✅ Password updated! Return to the SYE app and sign in with your new password.', 'success')
+        showMsg('✅ Password updated! Return to SYE and sign in with your new password.','success')
         btn.style.display = 'none'
       }
     }
 
-    window.togglePw = function (inputId, btn) {
-      const input = document.getElementById(inputId)
-      const isHidden = input.type === 'password'
-      input.type = isHidden ? 'text' : 'password'
-      btn.textContent = isHidden ? '🙈' : '👁'
+    window.toggle = function(id, btn) {
+      const el = document.getElementById(id)
+      const hidden = el.type === 'password'
+      el.type = hidden ? 'text' : 'password'
+      btn.textContent = hidden ? '🙈' : '👁'
     }
 
     function showMsg(text, type) {
       const el = document.getElementById('msg')
-      el.textContent   = text
-      el.className     = `msg msg-${type}`
+      el.textContent = text
+      el.className = `msg msg-${type}`
       el.style.display = 'block'
     }
   </script>
