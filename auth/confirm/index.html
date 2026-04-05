@@ -7,15 +7,15 @@
   <style>
     :root {
       --bg: #080d1a; --surface: #0f172a; --border: #1e2a40;
-      --accent: #f97316; --teal: #2dd4bf; --text: #e2e8f0;
-      --secondary: #94a3b8; --green: #22c55e; --red: #ef4444;
+      --accent: #f97316; --text: #e2e8f0; --secondary: #94a3b8;
+      --green: #22c55e; --red: #ef4444;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg); color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: 24px;
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 24px;
     }
     .card {
       background: var(--surface); border: 1px solid var(--border);
@@ -24,48 +24,70 @@
     }
     .icon { font-size: 56px; margin-bottom: 24px; }
     h1 { font-size: 26px; font-weight: 700; margin-bottom: 12px; }
-    p { color: var(--secondary); font-size: 15px; line-height: 1.6; margin-bottom: 16px; }
+    p  { color: var(--secondary); font-size: 15px; line-height: 1.6; margin-bottom: 16px; }
+    .steps {
+      text-align: left; margin: 20px 0;
+      background: rgba(249,115,22,0.05);
+      border: 1px solid rgba(249,115,22,0.15);
+      border-radius: 12px; padding: 16px 20px;
+    }
+    .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+    .step:last-child { margin-bottom: 0; }
+    .step-num {
+      background: rgba(249,115,22,0.15); color: var(--accent);
+      border-radius: 50%; width: 24px; height: 24px; min-width: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; margin-top: 2px;
+    }
+    .step-text { font-size: 14px; color: var(--secondary); line-height: 1.5; }
     .badge {
-      display: inline-block; padding: 6px 16px;
-      border-radius: 99px; font-size: 13px; font-weight: 600;
+      display: inline-block; padding: 6px 16px; border-radius: 99px;
+      font-size: 13px; font-weight: 600; margin-bottom: 16px;
     }
     .badge-success { background: rgba(34,197,94,0.15); color: var(--green); }
     .badge-error   { background: rgba(239,68,68,0.15);  color: var(--red); }
-    .btn {
-      display: inline-block; background: var(--accent); color: white;
-      padding: 13px 28px; border-radius: 12px; font-size: 15px;
-      font-weight: 600; text-decoration: none; margin-top: 24px;
-    }
-    .sye { color: var(--accent); font-size: 13px; margin-top: 32px; }
-    #loading { color: var(--secondary); }
-    #success, #error { display: none; }
+    .sye { color: var(--accent); font-size: 13px; margin-top: 28px; }
   </style>
 </head>
 <body>
   <div class="card">
-    <div id="loading">
+
+    <div id="loading-view">
       <div class="icon">⏳</div>
       <h1>Verifying…</h1>
       <p>Please wait while we confirm your email.</p>
     </div>
 
-    <div id="success">
+    <div id="success-view" style="display:none">
       <div class="icon">✅</div>
       <h1>Email Verified!</h1>
       <span class="badge badge-success">Verification successful</span>
-      <p style="margin-top:16px;">
-        Your SYE account is now active. Return to the app to continue.
-      </p>
-      <a href="https://apps.apple.com" class="btn">Open SYE App</a>
+      <p>Your SYE account is now active.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open the <strong style="color:var(--accent)">SYE app</strong> on your iPhone</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Tap <strong style="color:var(--accent)">"I've Confirmed My Email"</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">You're in! 🎉</div>
+        </div>
+      </div>
+
+      <p style="font-size:13px;">Verified on a computer? Just switch to your iPhone and tap the button in the app.</p>
     </div>
 
-    <div id="error">
+    <div id="error-view" style="display:none">
       <div class="icon">❌</div>
       <h1>Link Expired</h1>
       <span class="badge badge-error">Verification failed</span>
-      <p style="margin-top:16px;">
-        This link has expired or already been used. Open SYE and request a new confirmation email.
-      </p>
+      <p>This link has expired or already been used.</p>
+      <p>Open SYE and tap <strong>"Resend confirmation email"</strong> to get a new link.</p>
     </div>
 
     <p class="sye">SYE – Save Your Eyes</p>
@@ -74,14 +96,14 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-    const supabase = createClient(
-      'https://filhtmotbrscqnjnvdwz.supabase.co',
-      '0d1643b2f8326d9959abf50fde2b205bdf98641f35c74ae4c46750a4c407739f'
-    )
+    const SUPABASE_URL = 'https://wlkeysajblyozlzttnso.supabase.co'
+    const SUPABASE_ANON_KEY = 'sb_publishable_YfkLTVZ2NZMFb_lbucmvLA_cp2Hr2e4'
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
     const show = id => {
-      document.getElementById('loading').style.display = 'none'
-      document.getElementById(id).style.display = 'block'
+      ['loading-view','success-view','error-view']
+        .forEach(x => document.getElementById(x).style.display = x === id ? 'block' : 'none')
     }
 
     try {
@@ -89,17 +111,18 @@
       const params = new URLSearchParams(hash.replace('#', ''))
       const access_token  = params.get('access_token')
       const refresh_token = params.get('refresh_token')
-      const type          = params.get('type')
 
       if (!access_token || !refresh_token) {
-        show('error')
+        // Check if Supabase already handled it (PKCE)
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session) { show('success-view') }
+        else { show('error-view') }
       } else {
         const { error } = await supabase.auth.setSession({ access_token, refresh_token })
-        if (error) { show('error') }
-        else        { show('success') }
+        show(error ? 'error-view' : 'success-view')
       }
     } catch (e) {
-      show('error')
+      show('error-view')
     }
   </script>
 </body>
