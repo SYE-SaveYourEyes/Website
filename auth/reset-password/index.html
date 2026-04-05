@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset Password – SYE</title>
+  <style>
+    :root {
+      --bg: #080d1a; --surface: #0f172a; --border: #1e2a40;
+      --accent: #f97316; --text: #e2e8f0; --secondary: #94a3b8;
+      --green: #22c55e; --red: #ef4444; --input-bg: #131929;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px 40px;
+      max-width: 440px; width: 100%;
+    }
+    .icon { font-size: 48px; text-align: center; margin-bottom: 20px; }
+    h1 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+    .sub { color: var(--secondary); font-size: 14px; text-align: center; margin-bottom: 28px; }
+    label { font-size: 12px; font-weight: 600; color: var(--secondary); display: block; margin-bottom: 6px; margin-top: 16px; }
+    input[type="password"] {
+      width: 100%; padding: 13px 14px;
+      background: var(--input-bg); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); font-size: 15px; outline: none;
+    }
+    input[type="password"]:focus { border-color: var(--accent); }
+    .req { font-size: 12px; color: var(--secondary); margin-top: 8px; line-height: 1.6; }
+    .req span { display: block; }
+    .req .met { color: var(--green); }
+    button {
+      width: 100%; background: var(--accent); color: white;
+      border: none; border-radius: 12px; padding: 14px;
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      margin-top: 24px; transition: opacity 0.2s;
+    }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .msg { font-size: 14px; text-align: center; margin-top: 16px; padding: 12px; border-radius: 10px; }
+    .msg-success { background: rgba(34,197,94,0.1); color: var(--green); }
+    .msg-error   { background: rgba(239,68,68,0.1);  color: var(--red); }
+    .sye { color: var(--accent); font-size: 13px; text-align: center; margin-top: 28px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🔑</div>
+    <h1>Reset Password</h1>
+    <p class="sub">Enter your new password below.</p>
+
+    <label>New Password</label>
+    <input type="password" id="password" autocomplete="new-password"
+           oninput="checkRequirements()" placeholder="">
+
+    <div class="req">
+      <span id="req-length">○ At least 8 characters</span>
+      <span id="req-upper">○ At least one uppercase letter</span>
+      <span id="req-number">○ At least one number</span>
+    </div>
+
+    <label>Confirm Password</label>
+    <input type="password" id="confirm" autocomplete="new-password" placeholder="">
+
+    <button id="btn" onclick="resetPassword()" disabled>Update Password</button>
+
+    <div id="msg" style="display:none"></div>
+
+    <p class="sye">SYE – Save Your Eyes</p>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    const supabase = createClient(
+      'https://filhtmotbrscqnjnvdwz.supabase.co',
+      '0d1643b2f8326d9959abf50fde2b205bdf98641f35c74ae4c46750a4c407739f'
+    )
+
+    const hash   = window.location.hash
+    const params = new URLSearchParams(hash.replace('#', ''))
+    const access_token  = params.get('access_token')
+    const refresh_token = params.get('refresh_token')
+
+    if (access_token && refresh_token) {
+      await supabase.auth.setSession({ access_token, refresh_token })
+    } else {
+      showMsg('Invalid or expired reset link. Request a new one in the app.', 'error')
+      document.getElementById('btn').disabled = true
+    }
+
+    window.checkRequirements = function() {
+      const pw  = document.getElementById('password').value
+      const len = pw.length >= 8
+      const up  = /[A-Z]/.test(pw)
+      const num = /[0-9]/.test(pw)
+
+      const setReq = (id, met) => {
+        const el = document.getElementById(id)
+        el.textContent = (met ? '✓ ' : '○ ') + el.textContent.slice(2)
+        el.className   = met ? 'met' : ''
+      }
+
+      setReq('req-length', len)
+      setReq('req-upper',  up)
+      setReq('req-number', num)
+
+      document.getElementById('btn').disabled = !(len && up && num)
+    }
+
+    window.resetPassword = async function() {
+      const pw      = document.getElementById('password').value
+      const confirm = document.getElementById('confirm').value
+      const btn     = document.getElementById('btn')
+
+      if (pw !== confirm) {
+        showMsg('Passwords do not match.', 'error')
+        return
+      }
+
+      btn.disabled    = true
+      btn.textContent = 'Updating…'
+
+      const { error } = await supabase.auth.updateUser({ password: pw })
+
+      if (error) {
+        showMsg(error.message, 'error')
+        btn.disabled    = false
+        btn.textContent = 'Update Password'
+      } else {
+        showMsg('✅ Password updated! Return to the SYE app to sign in.', 'success')
+        btn.style.display = 'none'
+      }
+    }
+
+    function showMsg(text, type) {
+      const el = document.getElementById('msg')
+      el.textContent  = text
+      el.className    = `msg msg-${type}`
+      el.style.display = 'block'
+    }
+  </script>
+</body>
+</html>

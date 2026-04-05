@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SYE — Terms of Service</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root {
+        --bg: #0a0f1e;
+        --surface: #131929;
+        --border: #1e2a40;
+        --accent: #f97316;
+        --accent2: #3b82f6;
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --text-muted: #475569;
+        --heading: #f8fafc;
+        --code-bg: #1e2a40;
+        --radius: 12px;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+        font-size: 16px;
+        line-height: 1.75;
+        padding: 0 0 60px 0;
+      }
+
+      .hero {
+        background: linear-gradient(160deg, #0f172a 0%, #1e1042 100%);
+        padding: 48px 24px 36px;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .hero .badge {
+        display: inline-block;
+        background: rgba(249,115,22,0.15);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 4px 12px;
+        border-radius: 99px;
+        border: 1px solid rgba(249,115,22,0.3);
+        margin-bottom: 16px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--heading);
+        margin-bottom: 8px;
+      }
+
+      .hero .subtitle {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+
+      .toc {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin: 28px 20px;
+        padding: 20px 24px;
+      }
+
+      .toc h2 {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+      }
+
+      .toc ol {
+        padding-left: 20px;
+      }
+
+      .toc ol li {
+        margin-bottom: 6px;
+      }
+
+      .toc a {
+        color: var(--accent2);
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .toc a:hover { text-decoration: underline; }
+
+      .section {
+        margin: 0 20px 32px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px 24px;
+      }
+
+      .section h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--heading);
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section h2 .icon {
+        font-size: 20px;
+      }
+
+      .section h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--heading);
+        margin: 20px 0 10px;
+      }
+
+      .section p {
+        color: var(--text);
+        margin-bottom: 12px;
+        font-size: 15px;
+      }
+
+      .section ul, .section ol {
+        padding-left: 22px;
+        margin-bottom: 12px;
+      }
+
+      .section ul li, .section ol li {
+        color: var(--text);
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+
+      .highlight-box {
+        background: rgba(249,115,22,0.08);
+        border: 1px solid rgba(249,115,22,0.25);
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin: 16px 0;
+      }
+
+      .highlight-box p {
+        color: #fdba74;
+        font-size: 14px;
+        margin: 0;
+      }
+
+      .info-box {
+        background: rgba(59,130,246,0.08);
+        border: 1px solid rgba(59,130,246,0.25);
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin: 16px 0;
+      }
+
+      .info-box p {
+        color: #93c5fd;
+        font-size: 14px;
+        margin: 0;
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14px;
+      }
+
+      .data-table th {
+        background: rgba(255,255,255,0.04);
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 10px 12px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .data-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(30,42,64,0.6);
+        color: var(--text);
+        vertical-align: top;
+      }
+
+      .data-table tr:last-child td { border-bottom: none; }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 99px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+
+      .tag-device { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
+      .tag-server { background: rgba(249,115,22,0.15); color: #fdba74; border: 1px solid rgba(249,115,22,0.3); }
+      .tag-never  { background: rgba(239,68,68,0.15);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+      .tag-apple  { background: rgba(255,255,255,0.08); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.15); }
+
+      .contact-card {
+        background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(59,130,246,0.1));
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        text-align: center;
+        margin: 28px 20px 0;
+      }
+
+      .contact-card h3 { color: var(--heading); margin-bottom: 8px; }
+      .contact-card p  { color: var(--text-secondary); font-size: 14px; margin-bottom: 4px; }
+      .contact-card a  { color: var(--accent); text-decoration: none; }
+
+      .footer {
+        text-align: center;
+        padding: 32px 24px 0;
+        color: var(--text-muted);
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell page-shell--thin">
+      <header class="topbar">
+        <a class="topbar__brand" href="index.html#home">SYE - Save Your Eyes</a>
+        <nav class="topbar__nav">
+          <a href="index.html#home">Home</a>
+          <a href="info.html">Info</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="topbar__actions">
+          <a class="button button--primary" href="https://apps.apple.com/app/sye-save-your-eyes/id6755584328">Download</a>
+          <button class="topbar__menu-button" aria-label="Open menu">☰</button>
+        </div>
+      </header>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu__close" aria-label="Close menu">✕</button>
+        <nav class="mobile-menu__nav">
+          <a href="index.html#home">Home</a>
+          <a href="info.html">Info</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+
+      <main>
+      <main>
+        <div class="hero">
+          <span class="badge">Terms of Service</span>
+          <h1>Terms of Use</h1>
+          <p class="subtitle">Effective date: April 2025 · Version 2.0 · Please read carefully before using SYE</p>
+        </div>
+
+        <div class="toc">
+          <h2>Table of Contents</h2>
+          <ol>
+            <li><a href="#section-1">Acceptance of Terms</a></li>
+            <li><a href="#section-2">Eligibility</a></li>
+            <li><a href="#section-3">Your Account</a></li>
+            <li><a href="#section-4">Licence to Use the App</a></li>
+            <li><a href="#section-5">Screen Time and Blocking Features</a></li>
+            <li><a href="#section-6">Eye Health Content</a></li>
+            <li><a href="#section-7">Remote Content</a></li>
+            <li><a href="#section-8">Acceptable Use</a></li>
+            <li><a href="#section-9">Intellectual Property</a></li>
+            <li><a href="#section-10">In-App Purchases and Subscriptions</a></li>
+            <li><a href="#section-11">Disclaimer of Warranties</a></li>
+            <li><a href="#section-12">Limitation of Liability</a></li>
+            <li><a href="#section-13">Termination</a></li>
+            <li><a href="#section-14">Governing Law and Disputes</a></li>
+            <li><a href="#section-15">Changes to These Terms</a></li>
+            <li><a href="#section-16">Contact</a></li>
+          </ol>
+        </div>
+
+        <section class="section" id="section-1">
+          <h2><span class="icon">1</span>Acceptance of Terms</h2>
+          <p>By downloading, installing, or using SYE ("the app"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the app. These Terms constitute a legally binding agreement between you and the developer of SYE ("we", "us", "our"). Use of the app is also subject to our Privacy Policy, which is incorporated into these Terms by reference.</p>
+        </section>
+
+        <section class="section" id="section-2">
+          <h2><span class="icon">2</span>Eligibility</h2>
+          <ul>
+            <li>You must be at least 13 years of age to create an account.</li>
+            <li>If you are under 18, you represent that a parent or guardian has reviewed and agreed to these Terms on your behalf.</li>
+            <li>By using the app, you represent that the information you provide is accurate.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="section-3">
+          <h2><span class="icon">3</span>Your Account</h2>
+          <p>You are responsible for maintaining the confidentiality of your account. You must sign in with Apple or Google — we do not support password-based authentication. You are responsible for all activity that occurs under your account.</p>
+          <p>You must notify us immediately at <a href="mailto:support@getsye.com" style="color: var(--accent); text-decoration: none;">support@getsye.com</a> if you believe your account has been compromised. We reserve the right to suspend or terminate accounts that violate these Terms. You may delete your account at any time from Settings → Delete Account.</p>
+        </section>
+
+        <section class="section" id="section-4">
+          <h2><span class="icon">4</span>Licence to Use the App</h2>
+          <p>We grant you a personal, non-exclusive, non-transferable, revocable licence to use SYE on Apple devices that you own or control, subject to these Terms and the Apple App Store Terms of Service. This licence does not allow you to:</p>
+          <ul>
+            <li>Copy, modify, or distribute any part of the app.</li>
+            <li>Reverse engineer, decompile, or disassemble the app.</li>
+            <li>Use the app to build a competing product.</li>
+            <li>Remove any copyright or proprietary notices.</li>
+            <li>Use the app in any way that violates applicable law.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="section-5">
+          <h2><span class="icon">5</span>Screen Time and Blocking Features</h2>
+          <p>SYE uses Apple's FamilyControls, ManagedSettings, and DeviceActivity frameworks to provide app blocking, soft interruptions, and scheduled blocking. You acknowledge and agree that:</p>
+          <ul>
+            <li>Granting Screen Time permission is required for the core blocking features to function. Without this permission, app blocking, soft interruptions, and block scheduling will not work.</li>
+            <li>Screen Time permission grants SYE the ability to restrict access to apps you select. It does not grant SYE access to read your usage history or identify which apps you use.</li>
+            <li>SYE is not responsible for blocked apps. If you block an app and need urgent access to it, you can disable the block from within SYE at any time (subject to any cooldown periods you have configured).</li>
+            <li>Effectiveness is not guaranteed. Screen Time restrictions can be bypassed by uninstalling SYE, resetting the device, or changes to iOS. SYE is a tool to support your intentions — it is not a foolproof parental control system unless used with Screen Time passcode lock at the iOS level.</li>
+            <li>SYE does not monitor children on behalf of parents in any way that transmits data to a server. All monitoring is on-device and governed by Apple's FamilyControls framework.</li>
+          </ul>
+          <div class="highlight-box">
+            <p>SYE's blocking features are designed to help you achieve your own digital wellness goals. They are self-directed tools, not enforcement mechanisms. You are always able to remove restrictions you have set.</p>
+          </div>
+        </section>
+
+        <section class="section" id="section-6">
+          <h2><span class="icon">6</span>Eye Health Content</h2>
+          <div class="info-box">
+            <p>The eye health tips, blink reminders, and related content provided by SYE are for general informational purposes only. They do not constitute medical advice, diagnosis, or treatment.</p>
+          </div>
+          <p>SYE is not a medical device and has not been evaluated by the Therapeutic Goods Administration (TGA) or the FDA. If you experience eye pain, significant vision changes, persistent headaches, or other symptoms, consult a qualified eye care professional.</p>
+          <p>The 20-20-20 rule and other tips provided in the app are based on widely cited optometric guidance but individual needs vary. Reliance on any information provided by SYE is solely at your own risk.</p>
+        </section>
+
+        <section class="section" id="section-7">
+          <h2><span class="icon">7</span>Remote Content</h2>
+          <p>SYE fetches content (daily quotes, eye health tips, blog posts) from our Supabase backend. You acknowledge that:</p>
+          <ul>
+            <li>Content may change without notice.</li>
+            <li>We do not guarantee content will always be available — if the fetch fails, the app displays cached content or an empty state.</li>
+            <li>Blog posts represent the opinions of the author (typically the SYE team) and are for informational purposes only.</li>
+            <li>We reserve the right to add, edit, or remove content at any time.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="section-8">
+          <h2><span class="icon">8</span>Acceptable Use</h2>
+          <p>You agree not to use SYE to:</p>
+          <ul>
+            <li>Violate any applicable law or regulation.</li>
+            <li>Attempt to gain unauthorised access to our systems or Supabase infrastructure.</li>
+            <li>Interfere with or disrupt the integrity of the app or its backend services.</li>
+            <li>Circumvent or attempt to circumvent any technical restrictions in the app.</li>
+            <li>Use the app in a way that could damage, overburden, or impair our servers.</li>
+            <li>Impersonate another person or entity.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="section-9">
+          <h2><span class="icon">9</span>Intellectual Property</h2>
+          <p>SYE, including its name, logo, design, source code, and content, is owned by the developer and protected by Australian and international intellectual property laws. The SYE name and logo may not be used without prior written permission.</p>
+          <p>Content you see in the app (blog posts, quotes, tips) is owned by SYE or its respective authors. You retain ownership of any data you provide (onboarding answers) — you grant us a limited licence to store and use it to operate the service.</p>
+        </section>
+
+        <section class="section" id="section-10">
+          <h2><span class="icon">10</span>In-App Purchases and Subscriptions</h2>
+          <p>Currently SYE does not offer in-app purchases or subscriptions. If this changes in a future version, updated Terms will be provided with clear disclosure before any purchase is required. All purchases, if introduced, will be processed by Apple via the App Store and governed by Apple's terms.</p>
+        </section>
+
+        <section class="section" id="section-11">
+          <h2><span class="icon">11</span>Disclaimer of Warranties</h2>
+          <p>THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+          <p>We do not warrant that:</p>
+          <ul>
+            <li>The app will be uninterrupted, error-free, or free of viruses.</li>
+            <li>Any blocking features will be 100% effective in all circumstances.</li>
+            <li>Remote content will always be available.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="section-12">
+          <h2><span class="icon">12</span>Limitation of Liability</h2>
+          <p>To the fullest extent permitted by applicable law (including the Australian Consumer Law), we will not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use the app, including but not limited to:</p>
+          <ul>
+            <li>Loss of data.</li>
+            <li>Screen time features not functioning as expected due to iOS updates.</li>
+            <li>Reliance on eye health content.</li>
+          </ul>
+          <p>Our total liability to you for any claim arising from these Terms will not exceed AUD $10. Nothing in these Terms limits your rights under the Australian Consumer Law where those rights cannot be excluded.</p>
+        </section>
+
+        <section class="section" id="section-13">
+          <h2><span class="icon">13</span>Termination</h2>
+          <ul>
+            <li>You may stop using SYE at any time and delete your account from Settings.</li>
+            <li>We may suspend or terminate your access at any time if you violate these Terms, with or without notice.</li>
+            <li>On termination, your licence to use the app ends immediately.</li>
+            <li>Sections 9, 11, 12, and 14 survive termination.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="section-14">
+          <h2><span class="icon">14</span>Governing Law and Disputes</h2>
+          <p>These Terms are governed by the laws of New South Wales, Australia. Any dispute arising from these Terms will first be attempted to be resolved by contacting <a href="mailto:support@getsye.com" style="color: var(--accent); text-decoration: none;">support@getsye.com</a>. If unresolved, disputes will be subject to the exclusive jurisdiction of the courts of New South Wales, Australia.</p>
+          <p>If you are an EEA consumer, mandatory consumer protection laws of your country of residence may also apply.</p>
+        </section>
+
+        <section class="section" id="section-15">
+          <h2><span class="icon">15</span>Changes to These Terms</h2>
+          <p>We may update these Terms at any time. Material changes will be communicated via an in-app notice or updated effective date. Continued use after the effective date of new Terms constitutes acceptance. If you do not agree to the updated Terms, you must stop using the app and delete your account.</p>
+        </section>
+
+        <section class="section" id="section-16">
+          <h2><span class="icon">16</span>Contact</h2>
+          <div class="contact-card">
+            <h3>Contact</h3>
+            <p>Email: <a href="mailto:support@getsye.com">support@getsye.com</a></p>
+            <p>Website: <a href="https://getsye.com">getsye.com</a></p>
+            <p>For legal notices, please use the subject line: Legal Notice — SYE</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer__columns">
+          <div>
+            <div class="footer__brand">SYE</div>
+            <p class="footer__text">Save Your Eyes</p>
+            <a class="footer__link" href="mailto:syecontact.app@gmail.com">syecontact.app@gmail.com</a>
+          </div>
+          <div class="footer__links">
+            <div><a href="index.html#home">Home</a> · <a href="index.html#features">Features</a></div>
+            <div><a href="contact.html">Support</a> · <a href="privacypolicy">Privacy</a> · <a href="termsofservice">Terms</a> · <a href="updates.html">Updates</a></div>
+          </div>
+          <div>
+            <a class="button button--primary button--sm" href="https://apps.apple.com/app/sye-save-your-eyes/id6755584328">Download for iOS</a>
+            <p class="footer__muted">Free · No account · iOS 26</p>
+          </div>
+        </div>
+        <div class="footer__bottom">© 2025 SYE – Save Your Eyes. All rights reserved. These Terms were last updated in April 2025.</div>
+      </footer>
+    </div>
+    <script src="scripts.js"></script>
+  </body>
+</html>
