@@ -14,8 +14,8 @@
     body {
       background: var(--bg); color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: 24px;
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 24px;
     }
     .card {
       background: var(--surface); border: 1px solid var(--border);
@@ -24,15 +24,22 @@
     }
     .icon { font-size: 48px; text-align: center; margin-bottom: 20px; }
     h1 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
-    .sub { color: var(--secondary); font-size: 14px; text-align: center; margin-bottom: 28px; }
-    label { font-size: 12px; font-weight: 600; color: var(--secondary); display: block; margin-bottom: 6px; margin-top: 16px; }
-    input[type="password"] {
-      width: 100%; padding: 13px 14px;
+    .sub { color: var(--secondary); font-size: 14px; text-align: center; margin-bottom: 28px; line-height: 1.6; }
+    label { font-size: 12px; font-weight: 600; color: var(--secondary); display: block; margin-bottom: 6px; margin-top: 20px; }
+    .input-wrap { position: relative; }
+    input[type="password"], input[type="text"] {
+      width: 100%; padding: 13px 44px 13px 14px;
       background: var(--input-bg); border: 1px solid var(--border);
       border-radius: 10px; color: var(--text); font-size: 15px; outline: none;
+      transition: border-color 0.2s;
     }
-    input[type="password"]:focus { border-color: var(--accent); }
-    .req { font-size: 12px; color: var(--secondary); margin-top: 8px; line-height: 1.6; }
+    input:focus { border-color: var(--accent); }
+    .toggle-pw {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--secondary);
+      cursor: pointer; font-size: 16px; padding: 4px; width: auto; margin: 0;
+    }
+    .req { font-size: 12px; color: var(--secondary); margin-top: 10px; line-height: 1.8; }
     .req span { display: block; }
     .req .met { color: var(--green); }
     button {
@@ -41,8 +48,8 @@
       font-size: 15px; font-weight: 600; cursor: pointer;
       margin-top: 24px; transition: opacity 0.2s;
     }
-    button:disabled { opacity: 0.5; cursor: default; }
-    .msg { font-size: 14px; text-align: center; margin-top: 16px; padding: 12px; border-radius: 10px; }
+    button:disabled { opacity: 0.4; cursor: default; }
+    .msg { font-size: 14px; text-align: center; margin-top: 16px; padding: 14px; border-radius: 10px; line-height: 1.5; }
     .msg-success { background: rgba(34,197,94,0.1); color: var(--green); }
     .msg-error   { background: rgba(239,68,68,0.1);  color: var(--red); }
     .sye { color: var(--accent); font-size: 13px; text-align: center; margin-top: 28px; }
@@ -50,26 +57,45 @@
 </head>
 <body>
   <div class="card">
-    <div class="icon">🔑</div>
-    <h1>Reset Password</h1>
-    <p class="sub">Enter your new password below.</p>
-
-    <label>New Password</label>
-    <input type="password" id="password" autocomplete="new-password"
-           oninput="checkRequirements()" placeholder="">
-
-    <div class="req">
-      <span id="req-length">○ At least 8 characters</span>
-      <span id="req-upper">○ At least one uppercase letter</span>
-      <span id="req-number">○ At least one number</span>
+    <div id="loading-view">
+      <div class="icon">⏳</div>
+      <h1>Loading…</h1>
+      <p class="sub">Please wait while we verify your reset link.</p>
     </div>
 
-    <label>Confirm Password</label>
-    <input type="password" id="confirm" autocomplete="new-password" placeholder="">
+    <div id="form-view" style="display:none">
+      <div class="icon">🔑</div>
+      <h1>Reset Password</h1>
+      <p class="sub">Enter your new password below. Once updated, return to the SYE app and sign in.</p>
 
-    <button id="btn" onclick="resetPassword()" disabled>Update Password</button>
+      <label>New Password</label>
+      <div class="input-wrap">
+        <input type="password" id="password" autocomplete="new-password"
+               oninput="checkRequirements()">
+        <button class="toggle-pw" type="button" onclick="togglePw('password', this)">👁</button>
+      </div>
 
-    <div id="msg" style="display:none"></div>
+      <div class="req">
+        <span id="req-length">○ At least 8 characters</span>
+        <span id="req-upper">○ At least one uppercase letter</span>
+        <span id="req-number">○ At least one number</span>
+      </div>
+
+      <label>Confirm New Password</label>
+      <div class="input-wrap">
+        <input type="password" id="confirm" autocomplete="new-password">
+        <button class="toggle-pw" type="button" onclick="togglePw('confirm', this)">👁</button>
+      </div>
+
+      <button id="btn" onclick="resetPassword()" disabled>Update Password</button>
+      <div id="msg" style="display:none"></div>
+    </div>
+
+    <div id="error-view" style="display:none">
+      <div class="icon">❌</div>
+      <h1>Link Expired</h1>
+      <p class="sub">This reset link has expired or already been used.<br><br>Open SYE → Settings → Forgot Password to request a new link.</p>
+    </div>
 
     <p class="sye">SYE – Save Your Eyes</p>
   </div>
@@ -77,24 +103,47 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-    const supabase = createClient(
-      'https://filhtmotbrscqnjnvdwz.supabase.co',
-      '0d1643b2f8326d9959abf50fde2b205bdf98641f35c74ae4c46750a4c407739f'
-    )
+    // ✅ CORRECT Supabase project URL and anon key
+    const SUPABASE_URL = 'https://wlkeysajblyozlzttnso.supabase.co'
+    const SUPABASE_ANON_KEY = 'sb_publishable_YfkLTVZ2NZMFb_lbucmvLA_cp2Hr2e4'
 
-    const hash   = window.location.hash
-    const params = new URLSearchParams(hash.replace('#', ''))
-    const access_token  = params.get('access_token')
-    const refresh_token = params.get('refresh_token')
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-    if (access_token && refresh_token) {
-      await supabase.auth.setSession({ access_token, refresh_token })
-    } else {
-      showMsg('Invalid or expired reset link. Request a new one in the app.', 'error')
-      document.getElementById('btn').disabled = true
+    const show = id => {
+      ['loading-view', 'form-view', 'error-view']
+        .forEach(x => document.getElementById(x).style.display = x === id ? 'block' : 'none')
     }
 
-    window.checkRequirements = function() {
+    // Supabase puts tokens in the URL hash after redirect
+    // Handle BOTH hash-based tokens AND PKCE flow
+    async function init() {
+      const hash   = window.location.hash
+      const params = new URLSearchParams(hash.replace('#', ''))
+      const access_token  = params.get('access_token')
+      const refresh_token = params.get('refresh_token')
+      const type          = params.get('type')
+
+      if (access_token && refresh_token) {
+        const { error } = await supabase.auth.setSession({ access_token, refresh_token })
+        if (error) { show('error-view'); return }
+        show('form-view')
+        return
+      }
+
+      // Also check if Supabase already handled the session (PKCE flow)
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        show('form-view')
+        return
+      }
+
+      // No session — link invalid or expired
+      show('error-view')
+    }
+
+    await init()
+
+    window.checkRequirements = function () {
       const pw  = document.getElementById('password').value
       const len = pw.length >= 8
       const up  = /[A-Z]/.test(pw)
@@ -102,26 +151,22 @@
 
       const setReq = (id, met) => {
         const el = document.getElementById(id)
-        el.textContent = (met ? '✓ ' : '○ ') + el.textContent.slice(2)
-        el.className   = met ? 'met' : ''
+        const text = el.textContent.slice(2)
+        el.textContent = (met ? '✓ ' : '○ ') + text
+        el.className = met ? 'met' : ''
       }
-
       setReq('req-length', len)
-      setReq('req-upper',  up)
+      setReq('req-upper', up)
       setReq('req-number', num)
-
       document.getElementById('btn').disabled = !(len && up && num)
     }
 
-    window.resetPassword = async function() {
+    window.resetPassword = async function () {
       const pw      = document.getElementById('password').value
       const confirm = document.getElementById('confirm').value
       const btn     = document.getElementById('btn')
 
-      if (pw !== confirm) {
-        showMsg('Passwords do not match.', 'error')
-        return
-      }
+      if (pw !== confirm) { showMsg('Passwords do not match.', 'error'); return }
 
       btn.disabled    = true
       btn.textContent = 'Updating…'
@@ -129,19 +174,26 @@
       const { error } = await supabase.auth.updateUser({ password: pw })
 
       if (error) {
-        showMsg(error.message, 'error')
+        showMsg('Failed to update password: ' + error.message, 'error')
         btn.disabled    = false
         btn.textContent = 'Update Password'
       } else {
-        showMsg('✅ Password updated! Return to the SYE app to sign in.', 'success')
+        showMsg('✅ Password updated! Return to the SYE app and sign in with your new password.', 'success')
         btn.style.display = 'none'
       }
     }
 
+    window.togglePw = function (inputId, btn) {
+      const input = document.getElementById(inputId)
+      const isHidden = input.type === 'password'
+      input.type = isHidden ? 'text' : 'password'
+      btn.textContent = isHidden ? '🙈' : '👁'
+    }
+
     function showMsg(text, type) {
       const el = document.getElementById('msg')
-      el.textContent  = text
-      el.className    = `msg msg-${type}`
+      el.textContent   = text
+      el.className     = `msg msg-${type}`
       el.style.display = 'block'
     }
   </script>
