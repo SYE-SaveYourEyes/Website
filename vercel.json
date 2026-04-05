@@ -1,1 +1,0 @@
-{ \"rewrites\": [{ \"source\": \"/auth/:path*\", \"destination\": \"/auth/:path*\" }] }
